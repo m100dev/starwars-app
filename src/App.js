@@ -25,18 +25,20 @@ function App() {
       // Formats the data retrieved into JSON
       const data = await response.json();
 
-      // Shape the data in object for use in our MovieList / Movie component
-      const transformedMovies = data.results.map((movieData) => {
-        return ({
-          id: movieData.episode_id,
-          title: movieData.title,
-          openingText: movieData.opening_crawl,
-          releaseDate: movieData.release_date
+      const loadedMovies = [];
+
+      // Parses through the new data object and creates a new array of objects with desired shape.
+      for (const key in data) {
+        loadedMovies.push({
+          id: key,
+          title: data[key].title,
+          openingText: data[key].openingText,
+          releaseDate: data[key].releaseDate
         });
-      });
+      };
 
       // update the movie state
-      setMovies(transformedMovies);
+      setMovies(loadedMovies);
 
     } catch (error) {
       setError(error.message);
