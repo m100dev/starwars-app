@@ -15,7 +15,7 @@ function App() {
 
     try {  
       // Makes an HTTP GET request
-      const response = await fetch('https://swapi.dev/api/films');
+      const response = await fetch('https://react-http-847a9-default-rtdb.firebaseio.com/movies.json');
       
       // Checks if we got a 200 status code, if not throw an error
       if (!response.ok) {
@@ -49,8 +49,18 @@ function App() {
     fetchMoviesHandler();
   }, [fetchMoviesHandler]);
 
-  function addMovieHandler(movie) {
-    console.log(movie);
+  // Used to add a new movie
+  async function addMovieHandler(movie) {
+    const response = await fetch('https://react-http-847a9-default-rtdb.firebaseio.com/movies.json', {
+      method: 'POST',
+      body: JSON.stringify(movie),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await response.json();
+    console.log(data);
   };
 
   let content =<p>Couldn't find a movie</p>;
